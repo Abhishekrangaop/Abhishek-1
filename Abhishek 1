@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Trade Plus</title> 
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #1E90FF;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            margin: 50px 0;
+        }
+
+        .feature {
+            background-color: #fff;
+            padding: 20px;
+            margin: 0 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 200px;
+        }
+
+        .feature h3 {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style> 
+ </head> 
+ <body> 
+  <section class="hero"> 
+   <h2>Welcome to Trade Plus</h2> 
+   <p>Start trading with the best platform!</p> <button onclick="startTrading()">Get Started</button> 
+  </section> 
+  <section class="features"> 
+   <div class="feature"> 
+    <h3>Real-time Stock Tracking</h3> 
+    <p>Track stock prices live and make informed decisions.</p> 
+   </div> 
+   <div class="feature"> 
+    <h3>Trading Tools</h3> 
+    <p>Use powerful tools to trade effectively and efficiently.</p> 
+   </div> 
+   <div class="feature"> 
+    <h3>Secure Account</h3> 
+    <p>Your account and data are fully secured with encryption.</p> 
+   </div> 
+  </section> 
+  <section class="stock-price"> 
+   <h3>Latest Stock Price for Google (GOOGL)</h3> 
+   <p id="stock-price">Loading...</p> 
+  </section> 
+  <footer> 
+   <p>© 2024 Trade Plus. All rights reserved.</p> 
+  </footer> 
+  <script>
+    function startTrading() {
+        alert("Get started with your trading journey!");
+    }
+
+    async function fetchStockData() {
+        const apiKey = 'WUOXTE9RXQDUGVIQ';
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=GOOGL&interval=5min&apikey=${apiKey}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data["Time Series (5min)"]) {
+                const latestTime = Object.keys(data["Time Series (5min)"])[0];
+                const latestData = data["Time Series (5min)"][latestTime];
+                const latestPrice = latestData["4. close"];
+                document.getElementById("stock-price").innerText = `Price of Google: $${latestPrice}`;
+            } else {
+                document.getElementById("stock-price").innerText = "Stock data not available.";
+            }
+        } catch (error) {
+            document.getElementById("stock-price").innerText = "Error fetching stock data.";
+        }
+    }
+
+    fetchStockData();
+</script> 
+ </body>
+</html>
